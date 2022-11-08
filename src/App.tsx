@@ -84,7 +84,7 @@ function App() {
       <summary>CREADITS</summary>
       <div>
         <p>This tool is made by sup39 with MIT license. The source code can be found <a href='https://github.com/sup39/botw-lang-cmp'>here</a>.</p>
-        <p><a href='https://github.com/sup39/botw-lang-cmp/src/db.json'>Time data</a> is based on <a href='https://docs.google.com/document/d/1H0gqxqR2AZqc-MEDUoftJHn_FteyBBm_Zcowieev5ek/edit?usp=sharing'>Cephla's document</a>, which is based on <a href='https://youtu.be/yVaZdsgjWz8'>Swiffy22's video</a>.</p>
+        <p><a href='https://github.com/sup39/botw-lang-cmp/blob/main/src/db.json'>Time data</a> is based on <a href='https://docs.google.com/document/d/1H0gqxqR2AZqc-MEDUoftJHn_FteyBBm_Zcowieev5ek/edit?usp=sharing'>Cephla's document</a>, which is based on <a href='https://youtu.be/yVaZdsgjWz8'>Swiffy22's video</a>.</p>
       </div>
     </details>
     <h2>Time Comparison</h2>
