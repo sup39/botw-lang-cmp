@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import db from './db.json';
 import {i18nLabels, defaultLang, $lang0, setLang} from './i18n';
 import {events, i18nEventNames, presets} from './events';
+import _uniqueId from 'lodash/uniqueId';
 import styles from './App.module.sass';
 
 const langs = [
@@ -26,7 +27,7 @@ const f2f = (f: number) => {
   const sf = String(f%30)+'f';
   const s = f/30|0;
   if (s === 0) return sign+sf;
-  const ssf = `${s%30}:${sf.padStart(3, '0')}`;
+  const ssf = `${s%60}:${sf.padStart(3, '0')}`;
   const m = s/60|0;
   if (m === 0) return sign+ssf;
   return `${sign}${m}:${ssf.padStart(6, '0')}`;
@@ -45,14 +46,18 @@ const f2s = (f: number) => {
 
 export const RadioGroup = ({name, value: val, values, onChange, ...props}: {
   values: (string | [value: string, label: string])[]
-} & React.ComponentProps<'input'>) => <>{values.map(o => {
-  const [value, label] = typeof o === 'string' ? [o, o] : o;
-  return <div key={value} {...props}>
-    <input type='radio' name={name} value={value} checked={val===value}
-      onChange={onChange} />
-    <span>{label}</span>
-  </div>;
-})}</>;
+} & React.ComponentProps<'input'>) => {
+  const {current: idp} = useRef(_uniqueId('rg-'));
+  return <>{values.map(o => {
+    const [value, label] = typeof o === 'string' ? [o, o] : o;
+    const id = idp+value;
+    return <div key={value} {...props}>
+      <input type='radio' name={name} value={value} checked={val===value}
+        onChange={onChange} id={id} />
+      <label htmlFor={id}>{label}</label>
+    </div>;
+  })}</>;
+};
 
 function App() {
   const [selected, setSelected] = useState(
@@ -60,6 +65,7 @@ function App() {
   );
   const [timeFormat, setTimeFormat] = useState('s');
   const f2t = timeFormat === 'f' ? f2f : f2s;
+  const {current: idpEv} = useRef(_uniqueId('ev-'));
 
   const [$lang, set$lang] = useState($lang0);
   useEffect(() => setLang($lang), [$lang]);
@@ -115,7 +121,7 @@ function App() {
         <div>
           <span>{L('timeFormat')}</span>
           <RadioGroup name='timeFormat' value={timeFormat}
-            values={[['s', 'ms'], 'f']}
+            values={[['s', 'ms'], ['f', 'frame']]}
             onChange={e => setTimeFormat(e.target.value)} />
         </div>
       </div>
@@ -142,11 +148,11 @@ function App() {
       <h3>Cutscenes</h3>
       <div>
         {events.map(id => <div key={id} className='option-ctn'>
-          <input
+          <input id={idpEv+id}
             type='checkbox' checked={selected[id]}
             onChange={e => setSelected(o => ({...o, [id]: e.target.checked}))}
           />
-          <span>{eventNames[id]}</span>
+          <label htmlFor={idpEv+id}>{eventNames[id]}</label>
         </div>)}
       </div>
     </section>
