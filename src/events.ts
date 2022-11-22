@@ -90,6 +90,8 @@ export const presets: {[name: string]: Preset} = Object.fromEntries([
     'Sheikah Slate Get',
     'Head For The Point On Your SS',
     'All Divine Beasts Completion',
+    'Impa',
+    'All 13 Memories',
   ]],
   ['Dog%', [
     'Sheikah Slate Get',
